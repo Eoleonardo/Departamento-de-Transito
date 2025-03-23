@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/veiculos/cadastro" method="get">
+    <div>
+        <label for="modelo">MODELO</label>
+        <input type="text" name="modelo" id="modelo"/>
+    </div>
+
+    <div>
+        <label for="placa">PLACA</label>
+        <input type="text" name="placa" id="placa" maxlength="8" minlength="7"/>
+    </div>
+
+    <div>
+        <label for="cor">COR</label>
+        <input type="text" name="cor" id="cor" />
+    </div>
+
+    <div>
+        <label for="ano">ANO</label>
+        <input type="number" name="ano" id="ano" min="1886" max="2100"/>
+    </div>
+     <input type="submit" value="Cadastrar">
+  </form>
+</body>
+</html>
