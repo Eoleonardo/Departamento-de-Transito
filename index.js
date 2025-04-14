@@ -9,7 +9,8 @@ app.engine("handlebars", exphbs.engine());
 app.set("view engine", "handlebars")
 
 app.get("/", (req, res) => {
-    res.send("HELLO BABY");
+    res.render("home")
+    //res.send("HELLO BABY");
 });
 
 const veiculoRoutes = require("./routes/veiculoRoutes");
