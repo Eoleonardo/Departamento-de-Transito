@@ -1,5 +1,19 @@
 <h1>Veículos Cadastrados</h1>
-
+<table border="1">
+  <tr>
+    <th>id</th>
+     <th>placa</th>
+      <th>modelo</th>
+       <th>cor</th>
+        <th>ano</th>
+  </tr>
 {{#each veiculos}}
-  <p>Vilson</p>
+ <tr>
+  <td>{{this.id}}</td>
+  <td>{{this.placa}}</td>
+  <td>{{this.modelo}}</td>
+  <td>{{this.cor}}</td>
+  <td>{{this.ano}}</td>
+ </tr>
 {{/each}}
+</table>
