@@ -19,6 +19,14 @@ app.use("/veiculos", veiculoRoutes)
 const usuarioRoutes = require("./routes/usuarioRoutes");
 app.use("/usuarios", usuarioRoutes)
 
+const UsuarioController = require("./controllers/UsuarioController")
+
+app.get("/areaLogado", UsuarioController.verificaAutenticacao, (req, res)=>{
+    res.json({
+        msg: "Voce está logado com o ID" + req.usuarioID +  "e pode acessar este recurso"
+    });
+});
+
 app.listen(8000, (err) => {
     console.log("A aplicação esta rodando!!!")
 });

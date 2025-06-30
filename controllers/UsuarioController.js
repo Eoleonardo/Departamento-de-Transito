@@ -1,5 +1,7 @@
+
 const path = require("path");
 const bcryptjs = require("bcryptjs");
+const jwt =  require("jsonwebtoken");
 
 const {PrismaClient} = require("@prisma/client");
 const client = new PrismaClient(); 
@@ -26,24 +28,52 @@ class UsuarioController {
         });
     }
 
-    static async buscarTodos(req, res){
-     const id = req.params.idUsuario;
-
-     let usuarios
-
-     if (id != null){
-             let usuarios = await client.usuario.findMany({
-            where:{
-                id: parseInt(id),
+    static async login(req, res){
+        const {email, senha} = req.body;
+    
+        const usuario = await client.usuario.findUnique({
+            where: {
+                email: email,
             },
         });
-     }else{
-        usuarios = await client.usuario.findMany({});
-     }
+        if(!usuario){
+            return res.json({
+             msg: "Usuário nâo encontrado!"
+            });
+        }
+    
+    
+    const senhaCorreta = bcryptjs.compareSync(senha, usuario.senha);
+    if(!senhaCorreta){
+        return res.json({
+            msg: "Senha incorreta!"
+           });
+    }
 
+     const token = jwt.sign({id: usuario.id}, process.env.SENHA_SERVIDOR, {expiresIn: "1h",});
      res.json({
-        usuarios,
+        msg: "Autenticado!",
+        token: token,
      });
+    }
+    static async verificaAutenticacao(req, res, next){
+        const authHeader = req.headers["authorization"];
+        if(authHeader){
+            const token = authHeader.split(" ")[1];
+
+          jwt.verify(token, process.env.SENHA_SERVIDOR, (err, payload)=>{
+            if(err){
+                return res.json({
+                    msg:"Token inválido!",
+                });
+            }
+            req.usuarioId = payload.id;
+            next();
+          });
+        }
+        return res.json({
+            msg:"Token não encontrado"
+        })
     }
 }
 
@@ -52,3 +82,4 @@ module.exports = UsuarioController
 
 // npx prisma migrate dev
 // npx prisma generate
+// npm i jsonwebtoken
