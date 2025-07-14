@@ -26,7 +26,7 @@ class VeiculoController {
     static async buscarTodos(req, res){
      const id = req.params.idVeiculo;
 
-     let veiculos
+     let veiculos;
 
      if (id != null){
         veiculos = await client.veiculo.findMany({

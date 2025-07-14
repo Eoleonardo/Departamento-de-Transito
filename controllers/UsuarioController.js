@@ -58,7 +58,13 @@ class UsuarioController {
     }
     static async verificaAutenticacao(req, res, next){
         const authHeader = req.headers["authorization"];
-        if(authHeader){
+
+        if(!authHeader){
+             return res.json({
+            msg:"Token não encontrado"
+        });
+    }
+            
             const token = authHeader.split(" ")[1];
 
           jwt.verify(token, process.env.SENHA_SERVIDOR, (err, payload)=>{
@@ -71,16 +77,25 @@ class UsuarioController {
             next();
           });
         }
-        return res.json({
-            msg:"Token não encontrado"
-        })
-    }
+       
+    
     static async verificaIsAdmin(req, res, next){
         if(!req.usuarioId){
             return res.json({
             msg:"Token não está autenticado!"
         });
         }
+        const usuario = await client.usuario.findUnique({
+            where: {
+                id: req.usuarioId,
+            },
+        });
+        if(!usuario.isAdmin){
+             return res.json({
+            msg:"Acesso negado! você não e o adm!"
+        });
+        }
+        next();
     }
 }
 
