@@ -75,6 +75,13 @@ class UsuarioController {
             msg:"Token não encontrado"
         })
     }
+    static async verificaIsAdmin(req, res, next){
+        if(!req.usuarioId){
+            return res.json({
+            msg:"Token não está autenticado!"
+        });
+        }
+    }
 }
 
 module.exports = UsuarioController

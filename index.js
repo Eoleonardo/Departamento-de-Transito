@@ -21,7 +21,7 @@ app.use("/usuarios", usuarioRoutes)
 
 const UsuarioController = require("./controllers/UsuarioController")
 
-app.get("/areaLogado", UsuarioController.verificaAutenticacao, (req, res)=>{
+app.get("/areaAdmin", UsuarioController.verificaAutenticacao, (req, res)=>{
     res.json({
         msg: "Voce está logado com o ID" + req.usuarioID +  "e pode acessar este recurso"
     });
